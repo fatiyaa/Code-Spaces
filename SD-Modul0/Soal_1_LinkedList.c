@@ -24,10 +24,13 @@ typedef struct slist_t {
 void slist_init(SinglyList *list);
 bool slist_isEmpty(SinglyList *list);
 void slist_pour(SinglyList *list, int *value, int m);
-void printList(SinglyList *list);
-void printRev(SinglyList *list, int m);
-void multiply(SinglyList *list);
+void forEachElement(SinglyList *list, void (*func)(int *));
+void Rev(SinglyList *list);
+void multiply2(int *elem);
+void printElement(int *elem);
 int sumAll(SinglyList *list);
+void reserveEach(int *data);
+void sumDig(int *data);
 void clean(SinglyList *list);
 
 // fungsi utama
@@ -43,14 +46,39 @@ int main(){
 
     slist_init(&myList);
     slist_pour(&myList, dataa, big);
-    printList(&myList);
-    multiply(&myList);
-    printList(&myList);
-    printRev(&myList, big);
+
+    forEachElement(&myList,printElement);
+    forEachElement(&myList,reserveEach);
+    forEachElement(&myList,printElement);
+    forEachElement(&myList,sumDig);
+    forEachElement(&myList,printElement);
+    forEachElement(&myList,multiply2);
+    forEachElement(&myList,printElement);
+    Rev(&myList);
+    forEachElement(&myList,printElement);
     printf("%d\n",sumAll(&myList));
     clean(&myList);
-
     return 0;
+}
+
+//operasi untuk tiap node
+void forEachElement(SinglyList *list, void (*func)(int *)){
+    SListNode *temp = list->_head;
+    while (temp != NULL){
+        func(&temp->a);
+        temp = temp->next;
+    }
+    if (func==printElement)printf("\n");
+}
+
+//untuk print
+void printElement(int *elem) {
+    printf("%d ", *elem);
+}
+
+//untuk kali 2
+void multiply2(int *elem) {
+    *elem *= 2;
 }
 
 //inisiasi struct pointer head
@@ -83,41 +111,44 @@ void slist_pour(SinglyList *list, int *value, int m){
     }
 }
 
-// fungsi print
-void printList(SinglyList *list){
-    SinglyList prnt = *list;
-    while(!slist_isEmpty(&prnt)){
-        printf("%d ", prnt._head->a);
-        prnt._head=prnt._head->next;
+//fungsi membalik digit data dalam node
+void reserveEach(int *data){
+    int temp=*data;
+    int rev=0;
+    while(temp){
+        rev=(rev*10)+temp%10;
+        temp/=10;
     }
-    printf("\n");
+    *data = rev;
 }
 
-// fungsi print terbalik
-void printRev(SinglyList *list, int m){
-    SinglyList prnt = *list;
-    int forp[m], n=m;
-    while(!slist_isEmpty(&prnt)){
-        m--;
-        forp[m]=prnt._head->a;
-        prnt._head=prnt._head->next;
+// fungsi menjumlahkan digit tiap node
+void sumDig(int *data){
+    int temp=*data, sum=0;
+    while(temp){
+        sum+=temp%10;
+        temp/=10;
     }
-    for(int i=0; i<n; i++){
-        printf("%d ", forp[i]);
-    }
-    printf("\n");
+    *data=sum;
 }
 
-//fungsi untuk kali dua
-void multiply(SinglyList *list){
-    SinglyList mltp=*list;
-    while(!slist_isEmpty(&mltp)){
-        mltp._head->a*=2;
-        mltp._head=mltp._head->next;
+// membalik linkedlist
+void Rev(SinglyList *list){
+    SListNode * prev = NULL;
+    SListNode * curr = list->_head;
+    SListNode * aft = NULL;
+
+    while (curr != NULL) {
+        aft = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = aft;
     }
+    list->_head = prev;
 }
 
-//fungsi menjumlahkan
+
+//fungsi menjumlahkan semua node
 int sumAll(SinglyList *list){
     SinglyList sum =*list;
     int val=0;

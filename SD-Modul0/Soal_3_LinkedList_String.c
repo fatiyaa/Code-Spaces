@@ -9,7 +9,7 @@ panjang string maks. adalah 100 karakter).
 * MODUL 0 SOAL 3 - LINKED LIST FOR STRING
 * 
 * Oleh Fatiya Izzati
-* pada 27 Februari 2023
+* pada 28 Februari 2023
 * Struktur Data D
 */
 #include <stdlib.h>

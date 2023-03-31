@@ -48,12 +48,19 @@ int main(){
     slist_pour(&myList, dataa, big);
 
     forEachElement(&myList,printElement);
+
     forEachElement(&myList,reserveEach);
+    
     forEachElement(&myList,printElement);
+    
     forEachElement(&myList,sumDig);
+    
     forEachElement(&myList,printElement);
+    
     forEachElement(&myList,multiply2);
+    
     forEachElement(&myList,printElement);
+    
     Rev(&myList);
     forEachElement(&myList,printElement);
     printf("%d\n",sumAll(&myList));
@@ -101,6 +108,7 @@ void slist_pour(SinglyList *list, int *value, int m){
             
             if (slist_isEmpty(list)) 
                 list->_head = newNode;
+            
             else {
                 SListNode *temp = list->_head;
                 while (temp->next != NULL) 
